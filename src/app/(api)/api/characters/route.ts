@@ -1,19 +1,13 @@
 import type { NextRequest } from "next/server";
 import { CharacterSchema } from "@/schemas/character";
-import { notFound, success } from "../response";
+import { success } from "../response";
 import characterService from "./service";
 
 export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url);
-  const id = searchParams.get("id");
+  const userId = request.headers.get("x-user-id");
+  const characters = await characterService.getCharactersByUserId(`${userId}`);
 
-  if (id) {
-    const character = await characterService.getCharacterById(id);
-    return character ? success(character) : notFound();
-  } else {
-    const characters = await characterService.getCharacters();
-    return success(characters);
-  }
+  return success(characters);
 }
 
 export async function POST(request: NextRequest) {

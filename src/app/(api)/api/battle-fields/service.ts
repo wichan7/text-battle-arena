@@ -1,4 +1,4 @@
-import type { BattleField } from "@/app/types/schema";
+import type { BattleField } from "@/types/schema";
 import battleFieldDao from "./dao";
 
 const getBattleFields = async () => {
@@ -6,7 +6,10 @@ const getBattleFields = async () => {
 };
 
 const createBattleField = async (battleField: BattleField) => {
-  await battleFieldDao.create(battleField);
+  const id = await battleFieldDao.create(battleField);
+  const newBattleField = await battleFieldDao.getById(id);
+
+  return newBattleField;
 };
 
 const battleFieldService = { getBattleFields, createBattleField };

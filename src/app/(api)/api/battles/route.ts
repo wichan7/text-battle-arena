@@ -1,11 +1,14 @@
 import type { NextRequest } from "next/server";
-import { chat } from "@/core/server/llm/gemini";
 import { success } from "../response";
+import battleService from "./service";
 
-export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url);
-  const contents = `${searchParams.get("contents")}`;
+export async function GET(_request: NextRequest) {
+  return success(null);
+}
 
-  const result = await chat(contents);
+export async function POST(request: NextRequest) {
+  const body = await request.json();
+  const result = await battleService.startBattle(body.characterId);
+
   return success(result);
 }
