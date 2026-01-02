@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import type { Response } from "@/types/api";
+import type { ApiResponse } from "@/types/api";
 
-export function success(result: any): NextResponse<Response> {
+export function success(result: any): NextResponse<ApiResponse> {
   return NextResponse.json(
     {
       code: 200,
@@ -14,7 +14,7 @@ export function success(result: any): NextResponse<Response> {
 
 export function badRequest(
   message: string = "Bad request",
-): NextResponse<Response> {
+): NextResponse<ApiResponse> {
   return NextResponse.json(
     {
       code: 400,
@@ -27,7 +27,7 @@ export function badRequest(
 
 export function unAuthenticated(
   message: string = "Unauthenticated",
-): NextResponse<Response> {
+): NextResponse<ApiResponse> {
   return NextResponse.json(
     {
       code: 401,
@@ -40,7 +40,7 @@ export function unAuthenticated(
 
 export function notFound(
   message: string = "Resource not found",
-): NextResponse<Response> {
+): NextResponse<ApiResponse> {
   return NextResponse.json(
     {
       code: 404,
@@ -53,7 +53,7 @@ export function notFound(
 
 export function internalServerError(
   message: string = "Internal server error",
-): NextResponse<Response> {
+): NextResponse<ApiResponse> {
   return NextResponse.json(
     {
       code: 500,

@@ -8,7 +8,7 @@ export async function GET(_request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  const result = await battleService.startBattle(body.characterId);
+  const result = await battleService.createBattle(body.characterId);
 
   return success(result);
 }

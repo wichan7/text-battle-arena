@@ -1,7 +1,7 @@
+import ClientLayout from "./ClientLayout";
 import "./globals.css";
 
 import type { Metadata } from "next";
-import { QueryProvider } from "../queries/QueryProvider";
 
 export const metadata: Metadata = {
   title: "텍스트 배틀 아레나",
@@ -16,7 +16,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body>
-        <QueryProvider>{children}</QueryProvider>
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );

@@ -1,4 +1,4 @@
-export interface Response<T = any> {
+export interface ApiResponse<T = any> {
   code: number;
   message: string;
   result: T;
