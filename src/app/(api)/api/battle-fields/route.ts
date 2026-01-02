@@ -13,7 +13,6 @@ export async function POST(request: NextRequest) {
   const body = await request.json();
   const newBattleField = BattleFieldSchema.parse(body);
 
-  await battleFieldService.createBattleField(newBattleField);
-
-  return success(null);
+  const result = await battleFieldService.createBattleField(newBattleField);
+  return success(result);
 }

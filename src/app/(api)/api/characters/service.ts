@@ -1,4 +1,4 @@
-import type { Character } from "@/app/types/schema";
+import type { Character } from "@/types/schema";
 import characterDao from "./dao";
 
 const getCharacters = async () => {
@@ -7,6 +7,10 @@ const getCharacters = async () => {
 
 const getCharacterById = async (id: string) => {
   return await characterDao.getById(id);
+};
+
+const getCharactersByUserId = async (userId: string) => {
+  return await characterDao.getAll({ userId });
 };
 
 const createCharacter = async (character: Character) => {
@@ -21,6 +25,7 @@ const modifyCharacter = async (character: Partial<Character>) => {
 const characterService = {
   getCharacters,
   getCharacterById,
+  getCharactersByUserId,
   createCharacter,
   modifyCharacter,
 };
