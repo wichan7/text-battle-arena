@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { SessionGuard } from "./components/SessionGuard";
-import { QueryProvider } from "./providers/QueryProvider";
+import { QueryProvider } from "./queries/QueryProvider";
 
 export const metadata: Metadata = {
   title: "텍스트 배틀 아레나",

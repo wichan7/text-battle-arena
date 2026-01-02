@@ -13,9 +13,8 @@ async function fetchCharacters(): Promise<Character[]> {
   if (!response.ok) {
     throw new Error("Failed to fetch characters");
   }
-  const data = (await response.json()) as CharacterWithMongoId[];
-  // MongoDB에서 반환된 데이터를 Character 타입으로 변환
-  return data.map((char) => ({
+  const data = (await response.json()) as { result: CharacterWithMongoId[] };
+  return data.result?.map((char) => ({
     ...char,
     id: char._id ? String(char._id) : undefined,
   }));
