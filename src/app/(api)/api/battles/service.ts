@@ -3,7 +3,7 @@ import { generateBattlePrompt } from "@/core/server/prompt/battlePrompt";
 import battleFieldDao from "../battle-fields/dao";
 import characterDao from "../characters/dao";
 
-const startBattle = async (challengerId: string) => {
+const createBattle = async (challengerId: string) => {
   const challenger = await characterDao.getById(challengerId);
   const defender = await characterDao.getRandom(challengerId); // parameter: excludeId
   const battleField = await battleFieldDao.getRandom();
@@ -17,5 +17,5 @@ const startBattle = async (challengerId: string) => {
   return result;
 };
 
-const battleService = { startBattle };
+const battleService = { createBattle };
 export default battleService;

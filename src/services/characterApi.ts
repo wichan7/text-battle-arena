@@ -1,0 +1,19 @@
+import type { ApiResponse } from "@/types/api";
+import type { Character } from "@/types/schema";
+import api from "./api";
+
+const get = async () => {
+  const result = await api.get<null, ApiResponse<Character[]>>("/characters");
+  return result;
+};
+
+const create = async (data: Character) => {
+  const result = await api.post<Character, ApiResponse<Character>>(
+    "/characters",
+    data,
+  );
+  return result;
+};
+
+const characterApi = { get, create };
+export default characterApi;

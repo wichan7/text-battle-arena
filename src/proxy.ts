@@ -24,7 +24,8 @@ export async function proxy(request: NextRequest) {
         headers: requestHeaders,
       },
     });
-  } catch {
+  } catch (error) {
+    console.error(error);
     return unAuthenticated();
   }
 }
