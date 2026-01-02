@@ -10,6 +10,8 @@
     "format": "biome format --write"
   },
   "dependencies": {
+    "@google/genai": "^1.34.0",
+    "@tanstack/react-query": "^5.90.16",
     "@vercel/functions": "^3.3.4",
     "mongodb": "^7.0.0",
     "next": "16.1.1",

@@ -1,66 +1,28 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client";
+
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { useSession } from "@/app/core/hooks/useSession";
 
 export default function Home() {
+  const { sessionId, isLoading } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isLoading && sessionId) {
+      // 세션 ID가 생성되면 캐릭터 리스트 페이지로 이동
+      router.push("/character");
+    }
+  }, [sessionId, isLoading, router]);
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <main style={{ padding: "2rem", textAlign: "center" }}>
+      <h1>텍스트 배틀 아레나</h1>
+      {isLoading ? (
+        <p>세션을 초기화하는 중...</p>
+      ) : (
+        <p>세션 ID가 생성되었습니다. 잠시 후 이동합니다...</p>
+      )}
+    </main>
   );
 }
