@@ -1,7 +1,7 @@
-import type { Metadata } from "next";
 import "./globals.css";
-import { SessionGuard } from "./components/SessionGuard";
-import { QueryProvider } from "./queries/QueryProvider";
+
+import type { Metadata } from "next";
+import { QueryProvider } from "../queries/QueryProvider";
 
 export const metadata: Metadata = {
   title: "텍스트 배틀 아레나",
@@ -16,9 +16,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body>
-        <QueryProvider>
-          <SessionGuard>{children}</SessionGuard>
-        </QueryProvider>
+        <QueryProvider>{children}</QueryProvider>
       </body>
     </html>
   );
