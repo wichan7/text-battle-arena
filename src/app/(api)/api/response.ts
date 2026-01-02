@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import type { Response } from "@/app/types/api";
+import type { Response } from "@/types/api";
 
 export function success(result: any): NextResponse<Response> {
   return NextResponse.json(
