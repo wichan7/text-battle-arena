@@ -4,8 +4,9 @@ import characterService from "../service";
 
 export async function GET(
   _request: NextRequest,
-  { params }: { params: { characterId: string } },
+  { params }: { params: Promise<{ characterId: string }> },
 ) {
-  const character = await characterService.getCharacterById(params.characterId);
+  const { characterId } = await params;
+  const character = await characterService.getCharacterById(characterId);
   return character ? success(character) : notFound();
 }
