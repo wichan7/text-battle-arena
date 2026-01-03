@@ -15,5 +15,10 @@ const create = async (data: Character) => {
   return result;
 };
 
-const characterApi = { get, create };
+const deleteById = async (id: string) => {
+  const result = await api.delete<null, ApiResponse<null>>(`/characters/${id}`);
+  return result;
+};
+
+const characterApi = { get, create, deleteById };
 export default characterApi;

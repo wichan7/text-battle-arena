@@ -14,5 +14,13 @@ const characterQuery = {
       },
     });
   },
+  useDeleteCharacter: () => {
+    return useMutation({
+      mutationFn: characterApi.deleteById,
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["chracters"] });
+      },
+    });
+  },
 };
 export default characterQuery;

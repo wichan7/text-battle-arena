@@ -16,12 +16,18 @@ import characterQuery from "@/queries/characterQuery";
 export default function Page() {
   const router = useRouter();
   const { data, isLoading } = characterQuery.useGetCharacters();
+  const { mutate: deleteCharacter } = characterQuery.useDeleteCharacter();
 
   const goBattlePage = (characterId: string) => {
     router.push(`/battle?characterId=${characterId}`);
   };
   const goCreatePage = () => {
     router.push(`/character/create`);
+  };
+  const handleDelete = (characterId: string) => {
+    if (confirm("정말 이 캐릭터를 삭제하시겠습니까?")) {
+      deleteCharacter(characterId);
+    }
   };
 
   return (
@@ -79,14 +85,22 @@ export default function Page() {
                   </Typography>
                 )}
               </CardContent>
-              <CardActions>
+              <CardActions sx={{ gap: 1, flexWrap: "wrap" }}>
                 <Button
                   size="small"
                   variant="contained"
                   onClick={() => goBattlePage(c.id ?? "")}
-                  fullWidth
+                  sx={{ flex: 1, minWidth: 0 }}
                 >
                   배틀 시작
+                </Button>
+                <Button
+                  size="small"
+                  variant="outlined"
+                  color="error"
+                  onClick={() => handleDelete(c.id ?? "")}
+                >
+                  삭제
                 </Button>
               </CardActions>
             </Card>
@@ -108,9 +122,6 @@ export default function Page() {
           <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
             첫 번째 캐릭터를 생성해보세요!
           </Typography>
-          <Button variant="contained" onClick={goCreatePage}>
-            캐릭터 생성하기
-          </Button>
         </Box>
       )}
     </Container>

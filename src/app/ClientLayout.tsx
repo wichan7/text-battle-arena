@@ -1,10 +1,10 @@
 "use client";
 
-import type { PropsWithChildren } from "react";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Fab from "@mui/material/Fab";
-import { useRouter } from "next/navigation";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { usePathname, useRouter } from "next/navigation";
+import type { PropsWithChildren } from "react";
 import AuthGuard from "@/core/client/auth/AuthGuard";
 import { QueryProvider } from "@/queries/QueryProvider";
 
@@ -33,8 +33,11 @@ const theme = createTheme({
 
 const HomeFab = () => {
   const router = useRouter();
+  const pathname = usePathname();
 
-  return (
+  const isHome = pathname === "/";
+
+  return isHome ? null : (
     <Fab
       color="primary"
       aria-label="home"
