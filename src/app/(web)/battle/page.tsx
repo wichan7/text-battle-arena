@@ -59,14 +59,6 @@ export default function Page() {
         <Typography variant="h4" component="h1">
           배틀
         </Typography>
-        <Button
-          variant="contained"
-          startIcon={isPending ? <CircularProgress size={20} /> : null}
-          onClick={handleClickBattle}
-          disabled={isPending || !characterId}
-        >
-          {isPending ? "배틀 생성 중..." : "새 배틀 시작"}
-        </Button>
       </Box>
 
       {battle.isLoading ? (
@@ -85,7 +77,7 @@ export default function Page() {
               onClick={handleNewBattle}
               disabled={isPending || !characterId}
             >
-              새 배틀
+              {isPending ? "배틀 생성 중..." : "새 배틀 시작"}
             </Button>
           </Box>
           <Box
@@ -126,7 +118,7 @@ export default function Page() {
             disabled={isPending || !characterId}
             size="large"
           >
-            배틀 시작하기
+            {isPending ? "배틀 생성 중..." : "새 배틀 시작"}
           </Button>
         </Paper>
       )}

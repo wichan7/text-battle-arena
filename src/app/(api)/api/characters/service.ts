@@ -22,11 +22,16 @@ const modifyCharacter = async (character: Partial<Character>) => {
   return await characterDao.modify(character);
 };
 
+const deleteCharacter = async (id: string) => {
+  return await characterDao.deleteById(id);
+};
+
 const characterService = {
   getCharacters,
   getCharacterById,
   getCharactersByUserId,
   createCharacter,
   modifyCharacter,
+  deleteCharacter,
 };
 export default characterService;
