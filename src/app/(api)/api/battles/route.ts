@@ -7,8 +7,9 @@ export async function GET(_request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  const userId = request.headers.get("x-user-id");
   const body = await request.json();
-  const result = await battleService.createBattle(body.characterId);
+  const result = await battleService.createBattle(userId!, body.characterId);
 
   return success(result);
 }

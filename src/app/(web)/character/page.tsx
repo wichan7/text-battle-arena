@@ -8,7 +8,7 @@ export default function Page() {
   const { data } = characterQuery.useGetCharacters();
 
   const goBattlePage = (characterId: string) => {
-    router.push(`/battle?${characterId}`);
+    router.push(`/battle?characterId=${characterId}`);
   };
   const goCreatePage = () => {
     router.push(`/character/create`);

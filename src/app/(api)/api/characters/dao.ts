@@ -1,6 +1,6 @@
+import { getCollection } from "@/core/server/db/mongo";
 import { CharacterSchema } from "@/schemas/character";
 import type { Character } from "@/types/schema";
-import { getCollection } from "../../../../core/server/db/mongo";
 
 const getAll = async (params?: { userId?: string }) => {
   const collection = await getCollection("characters");
@@ -48,14 +48,14 @@ const create = async (character: Omit<Character, "id">) => {
   const id = crypto.randomUUID();
   const now = new Date();
 
-  const result = await collection.insertOne({
+  await collection.insertOne({
     ...character,
     id,
     createdAt: now,
     updatedAt: now,
   });
 
-  return result.insertedId.toString();
+  return id;
 };
 
 const modify = async (character: Partial<Character>) => {
