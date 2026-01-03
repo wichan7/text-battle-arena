@@ -83,7 +83,7 @@ export default function CreateCharacterPage() {
             {/* 캐릭터 이름 */}
             <TextField
               {...register("name")}
-              label="이름 (최대 20자)"
+              label="이름"
               placeholder="캐릭터 이름을 입력하세요"
               fullWidth
               error={!!errors.name}
@@ -94,7 +94,7 @@ export default function CreateCharacterPage() {
             {/* 능력 설명 */}
             <TextField
               {...register("ability")}
-              label="능력 (최대 150자)"
+              label="능력"
               placeholder="능력 설명을 입력하세요"
               fullWidth
               multiline
@@ -106,12 +106,13 @@ export default function CreateCharacterPage() {
 
             {/* 궁극기 정보 */}
             <Typography variant="h6" gutterBottom>
-              궁극기 정보 (선택사항)
+              궁극기 정보
             </Typography>
             <TextField
               {...register("ultName")}
               label="궁극기 이름"
               placeholder="궁극기 이름을 입력하세요"
+              required
               fullWidth
               error={!!errors.ultName}
               helperText={errors.ultName?.message}
@@ -120,6 +121,7 @@ export default function CreateCharacterPage() {
               {...register("ultAbility")}
               label="궁극기 능력"
               placeholder="궁극기 능력을 입력하세요"
+              required
               fullWidth
               error={!!errors.ultAbility}
               helperText={errors.ultAbility?.message}

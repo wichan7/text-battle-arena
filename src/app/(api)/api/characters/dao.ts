@@ -67,11 +67,18 @@ const modify = async (character: Partial<Character>) => {
   collection.updateOne({ id: character.id }, { $set: dataToModify });
 };
 
+const deleteById = async (id: string) => {
+  const collection = await getCollection("characters");
+  const result = await collection.deleteOne({ id });
+  return result.deletedCount > 0;
+};
+
 const characterDao = {
   getAll,
   getById,
   getRandom,
   create,
   modify,
+  deleteById,
 };
 export default characterDao;
