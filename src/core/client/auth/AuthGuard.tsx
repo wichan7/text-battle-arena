@@ -25,7 +25,12 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (!isHydrated) return;
 
+    const isLoginPath = pathname === "/";
     const isPublicPath = PUBLIC_PATHS.includes(pathname);
+
+    if (accessToken && isLoginPath) {
+      router.replace("/character");
+    }
 
     if (!accessToken && !isPublicPath) {
       router.replace("/");

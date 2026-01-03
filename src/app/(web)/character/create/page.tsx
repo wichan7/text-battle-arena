@@ -1,7 +1,18 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Alert,
+  Box,
+  Button,
+  CircularProgress,
+  Container,
+  Paper,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import type z from "zod";
 import characterQuery from "@/queries/characterQuery";
@@ -20,6 +31,7 @@ type CreateFormValues = z.infer<typeof createFormSchema>;
 export default function CreateCharacterPage() {
   const router = useRouter();
   const { mutate, isPending } = characterQuery.useCreateCharacter();
+  const [error, setError] = useState<string | null>(null);
 
   const {
     register,
@@ -31,67 +43,126 @@ export default function CreateCharacterPage() {
       name: "",
       ability: "",
     },
+    reValidateMode: "onChange",
   });
 
   const onSubmit = (data: CreateFormValues) => {
+    setError(null);
     mutate(data, {
       onSuccess: () => {
-        alert("캐릭터가 생성되었습니다!");
         router.push("/character");
       },
-      onError: () => {
-        alert("생성 실패: ");
+      onError: (err: unknown) => {
+        setError(
+          err instanceof Error ? err.message : "캐릭터 생성에 실패했습니다.",
+        );
       },
     });
   };
 
   return (
-    <div>
-      <h1>새 캐릭터 생성</h1>
+    <Container maxWidth="md" sx={{ py: 4 }}>
+      <Paper
+        elevation={3}
+        sx={{
+          p: 4,
+        }}
+      >
+        <Typography variant="h4" component="h1" gutterBottom>
+          새 캐릭터 생성
+        </Typography>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {/* 캐릭터 이름 */}
-        <div>
-          <label>이름 (최대 20자)</label>
-          <input {...register("name")} placeholder="캐릭터 이름을 입력하세요" />
-          {errors.name && <p>{errors.name.message}</p>}
-        </div>
+        {error && (
+          <Alert severity="error" sx={{ mb: 3 }} onClose={() => setError(null)}>
+            {error}
+          </Alert>
+        )}
 
-        {/* 능력 설명 */}
-        <div>
-          <label>능력 (최대 150자)</label>
-          <textarea
-            {...register("ability")}
-            placeholder="능력 설명을 입력하세요"
-          />
-          {errors.ability && <p>{errors.ability.message}</p>}
-        </div>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
+            {/* 캐릭터 이름 */}
+            <TextField
+              {...register("name")}
+              label="이름 (최대 20자)"
+              placeholder="캐릭터 이름을 입력하세요"
+              fullWidth
+              error={!!errors.name}
+              helperText={errors.name?.message}
+              required
+            />
 
-        {/* 궁극기 정보 (Optional 섹션) */}
-        <div>
-          <div>
-            <label>궁극기 이름</label>
-            <input {...register("ultName")} />
-          </div>
-          <div>
-            <label>궁극기 능력</label>
-            <input {...register("ultAbility")} />
-          </div>
-        </div>
+            {/* 능력 설명 */}
+            <TextField
+              {...register("ability")}
+              label="능력 (최대 150자)"
+              placeholder="능력 설명을 입력하세요"
+              fullWidth
+              multiline
+              rows={4}
+              error={!!errors.ability}
+              helperText={errors.ability?.message}
+              required
+            />
 
-        {/* 시작 대사 */}
-        <div>
-          <label>시작 대사</label>
-          <input
-            {...register("startMessage")}
-            placeholder="게임 시작 시 대사"
-          />
-        </div>
+            {/* 궁극기 정보 */}
+            <Typography variant="h6" gutterBottom>
+              궁극기 정보 (선택사항)
+            </Typography>
+            <TextField
+              {...register("ultName")}
+              label="궁극기 이름"
+              placeholder="궁극기 이름을 입력하세요"
+              fullWidth
+              error={!!errors.ultName}
+              helperText={errors.ultName?.message}
+            />
+            <TextField
+              {...register("ultAbility")}
+              label="궁극기 능력"
+              placeholder="궁극기 능력을 입력하세요"
+              fullWidth
+              error={!!errors.ultAbility}
+              helperText={errors.ultAbility?.message}
+            />
 
-        <button type="submit" disabled={isPending}>
-          {isPending ? "생성 중..." : "캐릭터 생성하기"}
-        </button>
-      </form>
-    </div>
+            {/* 시작 대사 */}
+            <TextField
+              {...register("startMessage")}
+              label="시작 대사"
+              placeholder="게임 시작 시 대사"
+              fullWidth
+              error={!!errors.startMessage}
+              helperText={errors.startMessage?.message}
+            />
+
+            {/* 버튼 */}
+            <Box
+              sx={{
+                display: "flex",
+                gap: 2,
+                justifyContent: "flex-end",
+                mt: 2,
+              }}
+            >
+              <Button
+                variant="outlined"
+                onClick={() => router.back()}
+                disabled={isPending}
+              >
+                취소
+              </Button>
+              <Button
+                type="submit"
+                variant="contained"
+                disabled={isPending}
+                startIcon={isPending ? <CircularProgress size={20} /> : null}
+              >
+                {isPending ? "생성 중..." : "캐릭터 생성하기"}
+              </Button>
+            </Box>
+          </Box>
+        </form>
+      </Paper>
+    </Container>
   );
 }
