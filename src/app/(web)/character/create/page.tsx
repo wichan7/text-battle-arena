@@ -104,14 +104,14 @@ export default function CreateCharacterPage() {
               required
             />
 
-            {/* 궁극기 정보 */}
+            {/* 필살기 정보 */}
             <Typography variant="h6" gutterBottom>
-              궁극기 정보
+              필살기 정보
             </Typography>
             <TextField
               {...register("ultName")}
-              label="궁극기 이름"
-              placeholder="궁극기 이름을 입력하세요"
+              label="필살기 이름"
+              placeholder="필살기 이름을 입력하세요"
               required
               fullWidth
               error={!!errors.ultName}
@@ -119,8 +119,8 @@ export default function CreateCharacterPage() {
             />
             <TextField
               {...register("ultAbility")}
-              label="궁극기 능력"
-              placeholder="궁극기 능력을 입력하세요"
+              label="필살기 능력"
+              placeholder="필살기 능력을 입력하세요"
               required
               fullWidth
               error={!!errors.ultAbility}

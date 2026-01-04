@@ -1,13 +1,6 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #0a0a0a;
+  --foreground: #f5f5f5;
 }
 
 html,
@@ -35,8 +28,96 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+html {
+  color-scheme: dark;
+}
+
+/* MDEditor 다크모드 스타일 */
+[data-color-mode="dark"] .wmde-markdown,
+.wmde-markdown {
+  color: #f5f5f5;
+  background-color: transparent;
+}
+
+[data-color-mode="dark"] .wmde-markdown p,
+.wmde-markdown p {
+  color: #f5f5f5;
+}
+
+[data-color-mode="dark"] .wmde-markdown h1,
+[data-color-mode="dark"] .wmde-markdown h2,
+[data-color-mode="dark"] .wmde-markdown h3,
+[data-color-mode="dark"] .wmde-markdown h4,
+[data-color-mode="dark"] .wmde-markdown h5,
+[data-color-mode="dark"] .wmde-markdown h6,
+.wmde-markdown h1,
+.wmde-markdown h2,
+.wmde-markdown h3,
+.wmde-markdown h4,
+.wmde-markdown h5,
+.wmde-markdown h6 {
+  color: #f5f5f5;
+}
+
+[data-color-mode="dark"] .wmde-markdown code,
+.wmde-markdown code {
+  background-color: #2a2a2a;
+  color: #f5f5f5;
+}
+
+[data-color-mode="dark"] .wmde-markdown pre,
+.wmde-markdown pre {
+  background-color: #2a2a2a;
+  color: #f5f5f5;
+}
+
+[data-color-mode="dark"] .wmde-markdown pre code,
+.wmde-markdown pre code {
+  background-color: transparent;
+}
+
+[data-color-mode="dark"] .wmde-markdown blockquote,
+.wmde-markdown blockquote {
+  border-left-color: #6366f1;
+  color: #d1d5db;
+}
+
+[data-color-mode="dark"] .wmde-markdown a,
+.wmde-markdown a {
+  color: #818cf8;
+}
+
+[data-color-mode="dark"] .wmde-markdown strong,
+.wmde-markdown strong {
+  color: #f5f5f5;
+}
+
+[data-color-mode="dark"] .wmde-markdown em,
+.wmde-markdown em {
+  color: #e5e7eb;
+}
+
+[data-color-mode="dark"] .wmde-markdown ul,
+[data-color-mode="dark"] .wmde-markdown ol,
+.wmde-markdown ul,
+.wmde-markdown ol {
+  color: #f5f5f5;
+}
+
+[data-color-mode="dark"] .wmde-markdown li,
+.wmde-markdown li {
+  color: #f5f5f5;
+}
+
+[data-color-mode="dark"] .wmde-markdown table,
+.wmde-markdown table {
+  color: #f5f5f5;
+}
+
+[data-color-mode="dark"] .wmde-markdown th,
+[data-color-mode="dark"] .wmde-markdown td,
+.wmde-markdown th,
+.wmde-markdown td {
+  border-color: #404040;
+  color: #f5f5f5;
 }
