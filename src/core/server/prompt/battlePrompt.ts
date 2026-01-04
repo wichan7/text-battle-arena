@@ -22,14 +22,15 @@ export const generateBattlePrompt = (
 설명 : ${character1.ability}
 필살기명 : ${character1.ultName}
 필살기 설명 : ${character1.ultAbility}
-전투시작시 문구 : ${character1.startMessage}
+${character1.startMessage ? `전투시작시 문구 : ${character1.startMessage}` : ""}
+
 
 캐릭터 2 (다른 사용자가 작성한 캐릭터)
 이름 : ${character2.name}
 설명 : ${character2.ability}
 필살기명 : ${character2.ultName}
 필살기 설명 : ${character2.ultAbility}
-전투시작시 문구 : ${character2.startMessage}
+${character2.startMessage ? `전투시작시 문구 : ${character2.startMessage}` : ""}
 
 전장 (캐릭터가 싸우는 무대)
 전장이름 : ${battleField.name}
