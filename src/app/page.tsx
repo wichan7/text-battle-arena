@@ -1,7 +1,7 @@
 "use client";
 
+import { Box, Button, Container, Paper, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
-import { Container, Box, Typography, Button, Paper } from "@mui/material";
 import userQuery from "@/queries/userQuery";
 
 export default function Home() {
@@ -52,7 +52,7 @@ export default function Home() {
             disabled={isPending}
             sx={{ mt: 2, minWidth: 200 }}
           >
-            {isPending ? "가입 중..." : "가입하기"}
+            {isPending ? "가입 중..." : "게스트로 시작하기"}
           </Button>
         </Paper>
       </Box>
