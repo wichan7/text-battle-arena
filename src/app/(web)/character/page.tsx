@@ -81,7 +81,7 @@ export default function Page() {
                 )}
                 {c.ultName && (
                   <Typography variant="body2" color="text.secondary">
-                    궁극기: {c.ultName}
+                    필살기: {c.ultName}
                   </Typography>
                 )}
               </CardContent>
