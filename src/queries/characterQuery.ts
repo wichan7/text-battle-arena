@@ -6,6 +6,13 @@ const characterQuery = {
   useGetCharacters: () => {
     return useQuery({ queryKey: ["chracters"], queryFn: characterApi.get });
   },
+  useGetCharacter: (characterId: string | null) => {
+    return useQuery({
+      queryKey: ["character", characterId],
+      queryFn: () => characterApi.getById(characterId!),
+      enabled: !!characterId,
+    });
+  },
   useCreateCharacter: () => {
     return useMutation({
       mutationFn: characterApi.create,

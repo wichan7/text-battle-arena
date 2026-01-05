@@ -2,8 +2,10 @@
 
 import {
   Alert,
+  Avatar,
   Box,
   Button,
+  Chip,
   CircularProgress,
   Container,
   Paper,
@@ -12,6 +14,7 @@ import {
 import MDEditor from "@uiw/react-md-editor";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import battleQuery from "@/queries/battleQuery";
+import characterQuery from "@/queries/characterQuery";
 
 export default function BattleDetailPage() {
   const params = useParams();
@@ -23,6 +26,13 @@ export default function BattleDetailPage() {
   const { mutate, isPending } = battleQuery.useCreateBattle();
   const battle = battleQuery.useGetBattle(battleId);
 
+  const challengerId = battle.data?.result?.challengerId;
+  const defenderId = battle.data?.result?.defenderId;
+  const winnerId = battle.data?.result?.winnerId;
+
+  const challenger = characterQuery.useGetCharacter(challengerId || null);
+  const defender = characterQuery.useGetCharacter(defenderId || null);
+
   const handleNewBattle = () => {
     if (characterId) {
       mutate(characterId, {
@@ -32,6 +42,10 @@ export default function BattleDetailPage() {
       });
     }
   };
+
+  const isLoadingCharacters = challenger.isLoading || defender.isLoading;
+  const challengerData = challenger.data?.result;
+  const defenderData = defender.data?.result;
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
@@ -48,6 +62,105 @@ export default function BattleDetailPage() {
         </Typography>
       </Box>
 
+      {/* 캐릭터 정보 카드 */}
+      {!battle.isLoading && challengerId && defenderId && (
+        <Paper elevation={1} sx={{ p: 3, mb: 3 }}>
+          {isLoadingCharacters ? (
+            <Box sx={{ display: "flex", justifyContent: "center", py: 4 }}>
+              <CircularProgress />
+            </Box>
+          ) : challengerData && defenderData ? (
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: { xs: "column", md: "row" },
+                gap: 3,
+                alignItems: "center",
+              }}
+            >
+              {/* 도전자 */}
+              <Box sx={{ flex: { xs: "1 1 100%", md: "1 1 0" } }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    gap: 1.5,
+                  }}
+                >
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                    <Avatar
+                      src={challengerData.profileImgUrl}
+                      sx={{
+                        width: 48,
+                        height: 48,
+                      }}
+                    >
+                      {challengerData.name?.[0] || "?"}
+                    </Avatar>
+                    <Typography variant="h6" component="h2" fontWeight={500}>
+                      {challengerData.name}
+                    </Typography>
+                  </Box>
+                  <Typography variant="body2" color="text.secondary">
+                    ELO {challengerData.elo || 1500}
+                  </Typography>
+                </Box>
+              </Box>
+
+              {/* VS */}
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  px: 2,
+                }}
+              >
+                <Typography
+                  variant="body1"
+                  component="span"
+                  color="text.secondary"
+                  fontWeight={500}
+                >
+                  VS
+                </Typography>
+              </Box>
+
+              {/* 방어자 */}
+              <Box sx={{ flex: { xs: "1 1 100%", md: "1 1 0" } }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    gap: 1.5,
+                  }}
+                >
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                    <Avatar
+                      src={defenderData.profileImgUrl}
+                      sx={{
+                        width: 48,
+                        height: 48,
+                      }}
+                    >
+                      {defenderData.name?.[0] || "?"}
+                    </Avatar>
+                    <Typography variant="h6" component="h2" fontWeight={500}>
+                      {defenderData.name}
+                    </Typography>
+                  </Box>
+                  <Typography variant="body2" color="text.secondary">
+                    ELO {defenderData.elo || 1500}
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
+          ) : null}
+        </Paper>
+      )}
+
       {battle.isLoading ? (
         <Box sx={{ display: "flex", justifyContent: "center", py: 8 }}>
           <CircularProgress />
@@ -58,11 +171,6 @@ export default function BattleDetailPage() {
         </Alert>
       ) : battle.data?.result?.battleLogs?.[0] ? (
         <Paper elevation={3} sx={{ p: 3 }}>
-          {battle.data.result.winnerId && (
-            <Alert severity="success" sx={{ mb: 2 }}>
-              승자가 결정되었습니다!
-            </Alert>
-          )}
           <Box sx={{ mb: 2, display: "flex", justifyContent: "flex-end" }}>
             <Button
               variant="outlined"
@@ -136,6 +244,79 @@ export default function BattleDetailPage() {
           배틀 로그가 없습니다.
         </Alert>
       )}
+
+      {/* 승패 정보 */}
+      {!battle.isLoading &&
+        winnerId &&
+        challengerData &&
+        defenderData &&
+        battle.data?.result?.battleLogs?.[0] && (
+          <Paper elevation={1} sx={{ p: 3, mt: 3 }}>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: { xs: "column", md: "row" },
+                gap: 3,
+                alignItems: "center",
+                justifyContent: "space-around",
+              }}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  gap: 1,
+                }}
+              >
+                <Typography variant="body2" color="text.secondary">
+                  {challengerData.name}
+                </Typography>
+                <Chip
+                  label={
+                    winnerId === challengerId
+                      ? "승리"
+                      : winnerId === defenderId
+                        ? "패배"
+                        : "무승부"
+                  }
+                  color={winnerId === challengerId ? "success" : "default"}
+                  size="small"
+                />
+                <Typography variant="caption" color="text.secondary">
+                  {challengerData.wins || 0}승 {challengerData.losses || 0}패
+                </Typography>
+              </Box>
+
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  gap: 1,
+                }}
+              >
+                <Typography variant="body2" color="text.secondary">
+                  {defenderData.name}
+                </Typography>
+                <Chip
+                  label={
+                    winnerId === defenderId
+                      ? "승리"
+                      : winnerId === challengerId
+                        ? "패배"
+                        : "무승부"
+                  }
+                  color={winnerId === defenderId ? "success" : "default"}
+                  size="small"
+                />
+                <Typography variant="caption" color="text.secondary">
+                  {defenderData.wins || 0}승 {defenderData.losses || 0}패
+                </Typography>
+              </Box>
+            </Box>
+          </Paper>
+        )}
     </Container>
   );
 }
