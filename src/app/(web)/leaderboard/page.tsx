@@ -15,6 +15,7 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import { DEFAULT_ELO } from "@/core/server/elo/eloCalculator";
 import characterQuery from "@/queries/characterQuery";
 
 export default function LeaderboardPage() {
@@ -72,7 +73,7 @@ export default function LeaderboardPage() {
                       </TableCell>
                       <TableCell align="right">
                         <Typography variant="body1" sx={{ fontWeight: 500 }}>
-                          {character.elo ?? 1500}
+                          {character.elo ?? DEFAULT_ELO}
                         </Typography>
                       </TableCell>
                     </TableRow>

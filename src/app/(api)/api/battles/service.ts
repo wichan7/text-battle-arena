@@ -1,4 +1,4 @@
-import { updateElo } from "@/core/server/elo/eloCalculator";
+import { DEFAULT_ELO, updateElo } from "@/core/server/elo/eloCalculator";
 import { extractWinner } from "@/core/server/llm/battleResultParser";
 import { chat } from "@/core/server/llm/gemini";
 import { generateBattlePrompt } from "@/core/server/prompt/battlePrompt";
@@ -14,7 +14,11 @@ const getBattleById = async (battleId: string) => {
 
 const createBattle = async (userId: string, challengerId: string) => {
   const challenger = await characterDao.getById(challengerId);
-  const defender = await characterDao.getRandom(challengerId); // parameter: excludeId
+  const challengerElo = challenger?.elo ?? DEFAULT_ELO;
+  const defender = await characterDao.getByClosestElo(
+    challengerElo,
+    challengerId,
+  );
   const battleField = await battleFieldDao.getRandom();
 
   if (!challenger || !defender || !battleField) {
@@ -40,8 +44,8 @@ const createBattle = async (userId: string, challengerId: string) => {
 
   // 3. 승자가 결정된 경우 ELO 업데이트
   if (winner === "challenger" || winner === "defender") {
-    const challengerElo = challenger.elo ?? 1500;
-    const defenderElo = defender.elo ?? 1500;
+    const challengerElo = challenger.elo ?? DEFAULT_ELO;
+    const defenderElo = defender.elo ?? DEFAULT_ELO;
 
     const { newWinnerElo, newLoserElo } =
       winner === "challenger"

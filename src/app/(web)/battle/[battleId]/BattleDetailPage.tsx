@@ -14,6 +14,7 @@ import {
 import MDEditor from "@uiw/react-md-editor";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { DEFAULT_ELO } from "@/core/server/elo/eloCalculator";
 import battleQuery from "@/queries/battleQuery";
 import characterQuery from "@/queries/characterQuery";
 import { useAuthStore } from "@/stores/useAuthStore";
@@ -135,7 +136,7 @@ export default function BattleDetailPage({ battleId }: BattleDetailPageProps) {
                     </Typography>
                   </Box>
                   <Typography variant="body2" color="text.secondary">
-                    ELO {challengerData.elo || 1500}
+                    ELO {challengerData.elo || DEFAULT_ELO}
                   </Typography>
                 </Box>
               </Box>
@@ -184,7 +185,7 @@ export default function BattleDetailPage({ battleId }: BattleDetailPageProps) {
                     </Typography>
                   </Box>
                   <Typography variant="body2" color="text.secondary">
-                    ELO {defenderData.elo || 1500}
+                    ELO {defenderData.elo || DEFAULT_ELO}
                   </Typography>
                 </Box>
               </Box>

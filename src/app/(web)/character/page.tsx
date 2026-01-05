@@ -11,6 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
+import { DEFAULT_ELO } from "@/core/server/elo/eloCalculator";
 import characterQuery from "@/queries/characterQuery";
 
 export default function Page() {
@@ -95,7 +96,7 @@ export default function Page() {
                     승리: {c.wins ?? 0} | 패배: {c.losses ?? 0}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    ELO: {c.elo ?? 1500}
+                    ELO: {c.elo ?? DEFAULT_ELO}
                   </Typography>
                 </Box>
               </CardContent>
