@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import MDEditor from "@uiw/react-md-editor";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import battleQuery from "@/queries/battleQuery";
 
 const ContentCopyIcon = () => (
@@ -45,6 +45,28 @@ export default function Page() {
 
   const { mutate, isPending } = battleQuery.useCreateBattle();
   const battle = battleQuery.useGetBattle(battleId);
+
+  const [loadingTextIndex, setLoadingTextIndex] = useState(0);
+  const loadingTexts = [
+    "배틀 생성 중...",
+    "치열한 전투 중...",
+    "스킬 준비 중...",
+    "공격력 계산 중...",
+    "전투 결과 분석 중...",
+  ];
+
+  useEffect(() => {
+    if (!isPending) {
+      setLoadingTextIndex(0);
+      return;
+    }
+
+    const interval = setInterval(() => {
+      setLoadingTextIndex((prev) => (prev + 1) % loadingTexts.length);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [isPending]);
 
   const handleClickBattle = () => {
     if (characterId) {
@@ -123,7 +145,7 @@ export default function Page() {
               onClick={handleNewBattle}
               disabled={isPending || !characterId}
             >
-              {isPending ? "배틀 생성 중..." : "새 배틀 시작"}
+              {isPending ? loadingTexts[loadingTextIndex] : "새 배틀 시작"}
             </Button>
           </Box>
           <Box
@@ -207,7 +229,7 @@ export default function Page() {
             disabled={isPending || !characterId}
             size="large"
           >
-            {isPending ? "배틀 생성 중..." : "새 배틀 시작"}
+            {isPending ? loadingTexts[loadingTextIndex] : "새 배틀 시작"}
           </Button>
         </Paper>
       )}

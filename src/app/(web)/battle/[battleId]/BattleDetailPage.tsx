@@ -12,16 +12,20 @@ import {
   Typography,
 } from "@mui/material";
 import MDEditor from "@uiw/react-md-editor";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import battleQuery from "@/queries/battleQuery";
 import characterQuery from "@/queries/characterQuery";
+import { useAuthStore } from "@/stores/useAuthStore";
 
-export default function BattleDetailPage() {
-  const params = useParams();
+interface BattleDetailPageProps {
+  battleId: string;
+}
+
+export default function BattleDetailPage({ battleId }: BattleDetailPageProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const battleId = params.battleId as string;
+  const accessToken = useAuthStore((state) => state.accessToken);
   const characterId = searchParams.get("characterId");
 
   const { mutate, isPending } = battleQuery.useCreateBattle();
@@ -57,6 +61,11 @@ export default function BattleDetailPage() {
   const defender = characterQuery.useGetCharacter(defenderId || null);
 
   const handleNewBattle = () => {
+    if (!accessToken) {
+      router.push("/");
+      return;
+    }
+
     if (characterId) {
       mutate(characterId, {
         onSuccess: ({ result }) => {
