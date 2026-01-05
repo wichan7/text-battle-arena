@@ -58,6 +58,11 @@ export default function BattleDetailPage() {
         </Alert>
       ) : battle.data?.result?.battleLogs?.[0] ? (
         <Paper elevation={3} sx={{ p: 3 }}>
+          {battle.data.result.winnerId && (
+            <Alert severity="success" sx={{ mb: 2 }}>
+              승자가 결정되었습니다!
+            </Alert>
+          )}
           <Box sx={{ mb: 2, display: "flex", justifyContent: "flex-end" }}>
             <Button
               variant="outlined"

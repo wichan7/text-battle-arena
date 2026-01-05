@@ -9,6 +9,9 @@ export const CharacterSchema = z.object({
   ultAbility: z.string().max(50),
   startMessage: z.string().max(50).optional(),
   profileImgUrl: z.string().optional(),
+  wins: z.number().default(0),
+  losses: z.number().default(0),
+  elo: z.number().default(1500),
   ...DateSchema.shape,
   ...AuditSchema.shape,
 });

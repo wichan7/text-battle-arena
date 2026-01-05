@@ -6,6 +6,7 @@ export const BattleSchema = z.object({
   challengerId: z.string(),
   defenderId: z.string(),
   battleLogs: z.array(z.string()).optional(),
+  winnerId: z.string().nullable().default(null),
   ...DateSchema.shape,
   ...AuditSchema.shape,
 });

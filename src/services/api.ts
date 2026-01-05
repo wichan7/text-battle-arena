@@ -21,8 +21,21 @@ api.interceptors.request.use(
   },
 );
 
-api.interceptors.response.use((response) => {
-  return response.data;
-});
+api.interceptors.response.use(
+  (response) => {
+    return response.data;
+  },
+  (error) => {
+    if (!axios.isAxiosError(error)) {
+      return Promise.reject(error);
+    }
+
+    if (error.response?.data?.code === 401 || error.response?.status === 401) {
+      useAuthStore.getState().clearAuth();
+    }
+
+    return Promise.reject(error);
+  },
+);
 
 export default api;

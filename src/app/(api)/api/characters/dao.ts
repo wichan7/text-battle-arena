@@ -50,6 +50,9 @@ const create = async (character: Omit<Character, "id">) => {
 
   await collection.insertOne({
     ...character,
+    wins: character.wins ?? 0,
+    losses: character.losses ?? 0,
+    elo: character.elo ?? 1500,
     id,
     createdAt: now,
     updatedAt: now,
@@ -73,6 +76,28 @@ const deleteById = async (id: string) => {
   return result.deletedCount > 0;
 };
 
+const updateBattleStats = async (
+  characterId: string,
+  isWin: boolean,
+  newElo: number,
+) => {
+  const collection = await getCollection("characters");
+  const now = new Date();
+
+  const updateQuery: {
+    $set: { elo: number; updatedAt: Date };
+    $inc: { wins?: number; losses?: number };
+  } = {
+    $set: {
+      elo: newElo,
+      updatedAt: now,
+    },
+    $inc: isWin ? { wins: 1 } : { losses: 1 },
+  };
+
+  await collection.updateOne({ id: characterId }, updateQuery);
+};
+
 const characterDao = {
   getAll,
   getById,
@@ -80,5 +105,6 @@ const characterDao = {
   create,
   modify,
   deleteById,
+  updateBattleStats,
 };
 export default characterDao;

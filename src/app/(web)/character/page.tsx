@@ -80,10 +80,18 @@ export default function Page() {
                   </Typography>
                 )}
                 {c.ultName && (
-                  <Typography variant="body2" color="text.secondary">
+                  <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
                     필살기: {c.ultName}
                   </Typography>
                 )}
+                <Box sx={{ mt: 2, pt: 2, borderTop: 1, borderColor: "divider" }}>
+                  <Typography variant="body2" color="text.secondary">
+                    승리: {c.wins ?? 0} | 패배: {c.losses ?? 0}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    ELO: {c.elo ?? 1500}
+                  </Typography>
+                </Box>
               </CardContent>
               <CardActions sx={{ gap: 1, flexWrap: "wrap" }}>
                 <Button
