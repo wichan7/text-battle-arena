@@ -7,8 +7,20 @@ const get = async () => {
   return result;
 };
 
-const create = async (data: Character) => {
-  const result = await api.post<Character, ApiResponse<Character>>(
+type CreateCharacterInput = Omit<
+  Character,
+  | "wins"
+  | "losses"
+  | "elo"
+  | "id"
+  | "createdAt"
+  | "updatedAt"
+  | "createdBy"
+  | "updatedBy"
+>;
+
+const create = async (data: CreateCharacterInput) => {
+  const result = await api.post<CreateCharacterInput, ApiResponse<Character>>(
     "/characters",
     data,
   );
