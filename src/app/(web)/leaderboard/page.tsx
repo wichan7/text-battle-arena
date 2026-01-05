@@ -6,14 +6,14 @@ import {
   CardContent,
   CircularProgress,
   Container,
-  Typography,
+  Paper,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  Paper,
+  Typography,
 } from "@mui/material";
 import characterQuery from "@/queries/characterQuery";
 
@@ -49,7 +49,9 @@ export default function LeaderboardPage() {
                     <TableCell align="center" sx={{ fontWeight: "bold" }}>
                       등수
                     </TableCell>
-                    <TableCell sx={{ fontWeight: "bold" }}>캐릭터 이름</TableCell>
+                    <TableCell sx={{ fontWeight: "bold" }}>
+                      캐릭터 이름
+                    </TableCell>
                     <TableCell align="right" sx={{ fontWeight: "bold" }}>
                       ELO
                     </TableCell>
@@ -99,4 +101,3 @@ export default function LeaderboardPage() {
     </Container>
   );
 }
-
