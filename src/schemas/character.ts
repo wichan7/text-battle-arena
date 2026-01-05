@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { DEFAULT_ELO } from "@/core/server/elo/eloCalculator";
 import { AuditSchema, DateSchema } from "./common";
 
 export const CharacterSchema = z.object({
@@ -11,7 +12,7 @@ export const CharacterSchema = z.object({
   profileImgUrl: z.string().optional(),
   wins: z.number().default(0),
   losses: z.number().default(0),
-  elo: z.number().default(1500),
+  elo: z.number().default(DEFAULT_ELO),
   ...DateSchema.shape,
   ...AuditSchema.shape,
 });

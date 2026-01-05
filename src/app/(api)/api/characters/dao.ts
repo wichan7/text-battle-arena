@@ -1,4 +1,5 @@
 import { getCollection } from "@/core/server/db/mongo";
+import { DEFAULT_ELO } from "@/core/server/elo/eloCalculator";
 import { CharacterSchema } from "@/schemas/character";
 import type { Character } from "@/types/schema";
 
@@ -52,7 +53,7 @@ const create = async (character: Omit<Character, "id">) => {
     ...character,
     wins: character.wins ?? 0,
     losses: character.losses ?? 0,
-    elo: character.elo ?? 1500,
+    elo: character.elo ?? DEFAULT_ELO,
     id,
     createdAt: now,
     updatedAt: now,
@@ -98,6 +99,36 @@ const updateBattleStats = async (
   await collection.updateOne({ id: characterId }, updateQuery);
 };
 
+const getByClosestElo = async (challengerElo: number, excludeId: string) => {
+  const collection = await getCollection("characters");
+
+  const closestCharacters = await collection
+    .aggregate([
+      { $match: { id: { $ne: excludeId } } },
+      {
+        $addFields: {
+          // elo가 null이면 DEFAULT_ELO으로 처리
+          characterElo: { $ifNull: ["$elo", DEFAULT_ELO] },
+          eloDifference: {
+            $abs: {
+              $subtract: [{ $ifNull: ["$elo", DEFAULT_ELO] }, challengerElo],
+            },
+          },
+        },
+      },
+      { $sort: { eloDifference: 1 } },
+      { $limit: 1 },
+    ])
+    .toArray();
+
+  if (closestCharacters.length === 0) return null;
+
+  const character = closestCharacters[0];
+  const validated = CharacterSchema.safeParse(character);
+
+  return validated.success ? validated.data : null;
+};
+
 const getTopByElo = async (limit: number = 5) => {
   const collection = await getCollection("characters");
 
@@ -119,6 +150,7 @@ const characterDao = {
   getAll,
   getById,
   getRandom,
+  getByClosestElo,
   create,
   modify,
   deleteById,

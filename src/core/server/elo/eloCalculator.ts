@@ -3,6 +3,7 @@
  * 표준 ELO 공식 사용 (K-factor: 32)
  */
 
+export const DEFAULT_ELO = 1500;
 const K_FACTOR = 32;
 
 /**
