@@ -4,7 +4,13 @@ import { queryClient } from "./QueryProvider";
 
 const characterQuery = {
   useGetCharacters: () => {
-    return useQuery({ queryKey: ["chracters"], queryFn: characterApi.get });
+    return useQuery({
+      queryKey: ["chracters"],
+      queryFn: characterApi.get,
+      staleTime: 0,
+      gcTime: 0,
+      refetchOnMount: true,
+    });
   },
   useGetCharacter: (characterId: string | null) => {
     return useQuery({
