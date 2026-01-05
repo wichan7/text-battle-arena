@@ -29,5 +29,14 @@ const characterQuery = {
       },
     });
   },
+  useGetLeaderboard: () => {
+    return useQuery({
+      queryKey: ["leaderboard"],
+      queryFn: characterApi.getLeaderboard,
+      staleTime: 0,
+      gcTime: 0,
+      refetchOnMount: true,
+    });
+  },
 };
 export default characterQuery;

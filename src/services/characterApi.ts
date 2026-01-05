@@ -39,5 +39,12 @@ const deleteById = async (id: string) => {
   return result;
 };
 
-const characterApi = { get, getById, create, deleteById };
+const getLeaderboard = async () => {
+  const result = await api.get<null, ApiResponse<Character[]>>(
+    "/characters/leaderboard",
+  );
+  return result;
+};
+
+const characterApi = { get, getById, create, deleteById, getLeaderboard };
 export default characterApi;

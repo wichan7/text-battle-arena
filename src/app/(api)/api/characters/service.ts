@@ -26,6 +26,10 @@ const deleteCharacter = async (id: string) => {
   return await characterDao.deleteById(id);
 };
 
+const getLeaderboard = async (limit: number = 5) => {
+  return await characterDao.getTopByElo(limit);
+};
+
 const characterService = {
   getCharacters,
   getCharacterById,
@@ -33,5 +37,6 @@ const characterService = {
   createCharacter,
   modifyCharacter,
   deleteCharacter,
+  getLeaderboard,
 };
 export default characterService;
