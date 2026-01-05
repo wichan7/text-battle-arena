@@ -20,21 +20,23 @@ export const generateBattlePrompt = (
 5. 전투 종료: 전투가 끝나면 최종 결과를 명확히 묘사
 
 # 캐릭터 및 전장 정보
-캐릭터1
+## 캐릭터1
 이름: ${character1.name}
 능력: ${character1.ability}
-필살기: ${character1.ultName} (${character1.ultAbility})
+필살기명: ${character1.ultName} 
+필살기 설명: ${character1.ultAbility}
 ${character1.startMessage ? `전투시작시 문구: ${character1.startMessage}` : ""}
 
-캐릭터2
+## 캐릭터2
 이름: ${character2.name}
 능력: ${character2.ability}
 필살기명: ${character2.ultName} 
 필살기 설명: ${character2.ultAbility}
 ${character2.startMessage ? `전투시작시 문구: ${character2.startMessage}` : ""}
 
-전장 이름: ${battleField.name}
-전장 설명: ${battleField.description}
+## 전장
+이름: ${battleField.name}
+설명: ${battleField.description}
 
 # 출력 예시
 전장에 안개가 자욱합니다...
