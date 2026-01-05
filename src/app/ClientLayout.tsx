@@ -104,8 +104,11 @@ const HomeFab = () => {
 
 const LeaderboardFab = () => {
   const router = useRouter();
+  const pathname = usePathname();
 
-  return (
+  const isHome = pathname === "/";
+
+  return isHome ? null : (
     <Fab
       color="secondary"
       aria-label="leaderboard"
