@@ -1,5 +1,6 @@
 "use client";
 
+import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import HomeIcon from "@mui/icons-material/Home";
 import CssBaseline from "@mui/material/CssBaseline";
 import Fab from "@mui/material/Fab";
@@ -101,6 +102,32 @@ const HomeFab = () => {
   );
 };
 
+const LeaderboardFab = () => {
+  const router = useRouter();
+
+  return (
+    <Fab
+      color="secondary"
+      aria-label="leaderboard"
+      sx={{
+        position: "fixed",
+        bottom: 96,
+        right: 24,
+        zIndex: 1000,
+        boxShadow: "0 4px 14px 0 rgba(236, 72, 153, 0.3)",
+        "&:hover": {
+          boxShadow: "0 6px 20px 0 rgba(236, 72, 153, 0.4)",
+          transform: "scale(1.05)",
+        },
+        transition: "all 0.3s ease",
+      }}
+      onClick={() => router.push("/leaderboard")}
+    >
+      <EmojiEventsIcon />
+    </Fab>
+  );
+};
+
 const ClientLayout = ({ children }: PropsWithChildren) => {
   return (
     <ThemeProvider theme={theme}>
@@ -109,6 +136,7 @@ const ClientLayout = ({ children }: PropsWithChildren) => {
         <QueryProvider>
           {children}
           <HomeFab />
+          <LeaderboardFab />
         </QueryProvider>
       </AuthGuard>
     </ThemeProvider>

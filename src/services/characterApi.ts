@@ -7,6 +7,13 @@ const get = async () => {
   return result;
 };
 
+const getById = async (id: string) => {
+  const result = await api.get<null, ApiResponse<Character>>(
+    `/characters/${id}`,
+  );
+  return result;
+};
+
 type CreateCharacterInput = Omit<
   Character,
   | "wins"
@@ -32,5 +39,12 @@ const deleteById = async (id: string) => {
   return result;
 };
 
-const characterApi = { get, create, deleteById };
+const getLeaderboard = async () => {
+  const result = await api.get<null, ApiResponse<Character[]>>(
+    "/characters/leaderboard",
+  );
+  return result;
+};
+
+const characterApi = { get, getById, create, deleteById, getLeaderboard };
 export default characterApi;

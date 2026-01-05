@@ -98,6 +98,23 @@ const updateBattleStats = async (
   await collection.updateOne({ id: characterId }, updateQuery);
 };
 
+const getTopByElo = async (limit: number = 5) => {
+  const collection = await getCollection("characters");
+
+  const topCharacters = await collection
+    .find({})
+    .sort({ elo: -1 })
+    .limit(limit)
+    .toArray();
+
+  const validatedData = topCharacters
+    .map((data) => CharacterSchema.safeParse(data))
+    .filter((result) => result.success)
+    .map((result) => result.data);
+
+  return validatedData;
+};
+
 const characterDao = {
   getAll,
   getById,
@@ -106,5 +123,6 @@ const characterDao = {
   modify,
   deleteById,
   updateBattleStats,
+  getTopByElo,
 };
 export default characterDao;
