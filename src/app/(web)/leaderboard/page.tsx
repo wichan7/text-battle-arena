@@ -56,6 +56,12 @@ export default function LeaderboardPage() {
                     <TableCell align="right" sx={{ fontWeight: "bold" }}>
                       ELO
                     </TableCell>
+                    <TableCell align="right" sx={{ fontWeight: "bold" }}>
+                      승
+                    </TableCell>
+                    <TableCell align="right" sx={{ fontWeight: "bold" }}>
+                      패
+                    </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -74,6 +80,16 @@ export default function LeaderboardPage() {
                       <TableCell align="right">
                         <Typography variant="body1" sx={{ fontWeight: 500 }}>
                           {character.elo ?? DEFAULT_ELO}
+                        </Typography>
+                      </TableCell>
+                      <TableCell align="right">
+                        <Typography variant="body1" sx={{ fontWeight: 500 }}>
+                          {character.wins ?? 0}
+                        </Typography>
+                      </TableCell>
+                      <TableCell align="right">
+                        <Typography variant="body1" sx={{ fontWeight: 500 }}>
+                          {character.losses ?? 0}
                         </Typography>
                       </TableCell>
                     </TableRow>
