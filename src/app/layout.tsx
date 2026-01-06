@@ -1,6 +1,7 @@
 import ClientLayout from "./ClientLayout";
 import "./globals.css";
 
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import { Noto_Sans_KR } from "next/font/google";
 
@@ -24,6 +25,7 @@ export default function RootLayout({
     <html lang="ko" className="dark">
       <body className={notoSansKr.className}>
         <ClientLayout>{children}</ClientLayout>
+        <Analytics />
       </body>
     </html>
   );
